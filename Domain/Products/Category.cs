@@ -18,11 +18,12 @@ public class Category : Entity
 
         Validate();
     }
-    public void EditInfo(string name, bool active)
+    public void EditInfo(string name, bool active, string editedBy)
     {
         Name = name;
         Active = active;
-
+        EditedBy = editedBy;
+        EditeOn = DateTime.Now;
         Validate();
     }
 
