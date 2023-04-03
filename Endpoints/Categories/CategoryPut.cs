@@ -1,7 +1,6 @@
 ﻿using IWantApp.Infra.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using static System.Net.WebRequestMethods;
 
 namespace IWantApp.Endpoints.Categories;
 
