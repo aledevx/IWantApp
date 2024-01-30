@@ -15,13 +15,13 @@ public class TokenPost
     {
         var user = userManager.FindByEmailAsync(loginRequest.Email).Result;
         if (user == null)
-            Results.BadRequest();
+            return Results.BadRequest(new { message = "Login inválido" });
         if (!userManager.CheckPasswordAsync(user, loginRequest.Password).Result)
-            Results.BadRequest();
+            return Results.BadRequest(new { message = "Senha incorreta" });
 
         var key = Encoding.ASCII.GetBytes(configuration["JwtBearerTokenSettings:SecretKey"]);
         var userClaims = userManager.GetClaimsAsync(user).Result;
-        var subject = new ClaimsIdentity(new Claim[] 
+        var subject = new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Email, loginRequest.Email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id)
@@ -32,11 +32,11 @@ public class TokenPost
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = subject,
-            SigningCredentials = 
+            SigningCredentials =
             new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Audience = configuration["JwtBearerTokenSettings:Audience"],
             Issuer = configuration["JwtBearerTokenSettings:Issuer"],
-            Expires = DateTime.UtcNow.AddSeconds(30)
+            Expires = DateTime.UtcNow.AddSeconds(600)
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
