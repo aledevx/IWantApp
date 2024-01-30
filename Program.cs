@@ -9,7 +9,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration["ConnectionStrings:IWantDb"]);
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireDigit = false;
@@ -20,12 +20,17 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddAuthorization(options =>
-{ 
+builder.Services.AddAuthorization(
+    options =>
+{
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
     .RequireAuthenticatedUser()
     .Build();
+
+    options.AddPolicy("EmployeePolicy", p =>
+    p.RequireAuthenticatedUser()
+    );
 
     options.AddPolicy("EmployeePolicy", p =>
         p.RequireAuthenticatedUser()
@@ -37,7 +42,8 @@ builder.Services.AddAuthorization(options =>
         .RequireClaim("EmployeeCode", "015")
     );
 
-});
+}
+);
 
 builder.Services.AddAuthentication(x =>
 {
@@ -81,15 +87,25 @@ app.MapMethods(CategoryPut.Template, CategoryPut.Methods, CategoryPut.Handle);
 app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handle);
 app.MapMethods(EmployeeGetAll.Template, EmployeeGetAll.Methods, EmployeeGetAll.Handle);
 app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
+app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handle);
+app.MapMethods(ProductPut.Template, ProductPut.Methods, ProductPut.Handle);
+app.MapMethods(ProductGetAll.Template, ProductGetAll.Methods, ProductGetAll.Handle);
+app.MapMethods(ProductGetById.Template, ProductGetById.Methods, ProductGetById.Handle);
 
 app.UseExceptionHandler("/error");
-app.Map("/error", (HttpContext http) => {
+app.Map("/error", (HttpContext http) =>
+{
     var error = http.Features?.Get<IExceptionHandlerFeature>()?.Error;
 
-    if(error != null) {
-        if(error is SqlException)
+    if (error != null)
+    {
+        if (error is SqlException)
         {
             return Results.Problem(title: "Database out", statusCode: 500);
+        }
+        else if (error is BadHttpRequestException)
+        {
+            return Results.Problem(title: "Error to convert data to other type. See all the information sent", statusCode: 500);
         }
     }
     return Results.Problem(title: "An error ocurred", statusCode: 500);
