@@ -14,23 +14,24 @@ public class CategoryPut
         [FromRoute] Guid id,
         CategoryRequest categoryRequest,
         HttpContext http,
-        ApplicationDbContext context) {
+        ApplicationDbContext context)
+    {
 
         var userId = http.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         var category = context.Categories.Where(c => c.Id == id).FirstOrDefault();
 
         if (category == null)
-        { 
+        {
             return Results.NotFound();
         }
 
         category.EditInfo(categoryRequest.Name, categoryRequest.Active, userId);
 
-        if (!(category!.IsValid))
+        if (!category.IsValid)
         {
             return Results.ValidationProblem(category.Notifications.ConvertToProblemDetails());
         }
-          
+
         context.Categories.Update(category);
         context.SaveChanges();
 
