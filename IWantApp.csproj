@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
@@ -10,7 +10,7 @@
     <Compile Remove="Endpoints\Categories\CategoryPost - Cópia.cs" />
     <Compile Remove="Endpoints\Employees\EmployeePost - Cópia.cs" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Using Include="Flunt.Notifications"/>
     <Using Include="Microsoft.AspNetCore.Identity"/>
