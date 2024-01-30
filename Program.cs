@@ -29,10 +29,6 @@ builder.Services.AddAuthorization(
     .Build();
 
     options.AddPolicy("EmployeePolicy", p =>
-    p.RequireAuthenticatedUser()
-    );
-
-    options.AddPolicy("EmployeePolicy", p =>
         p.RequireAuthenticatedUser()
             .RequireClaim("EmployeeCode")
         );
@@ -91,6 +87,7 @@ app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handle);
 app.MapMethods(ProductPut.Template, ProductPut.Methods, ProductPut.Handle);
 app.MapMethods(ProductGetAll.Template, ProductGetAll.Methods, ProductGetAll.Handle);
 app.MapMethods(ProductGetById.Template, ProductGetById.Methods, ProductGetById.Handle);
+app.MapMethods(ProductGetShowcase.Template, ProductGetShowcase.Methods, ProductGetShowcase.Handle);
 
 app.UseExceptionHandler("/error");
 app.Map("/error", (HttpContext http) =>
