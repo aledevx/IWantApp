@@ -59,6 +59,7 @@ public class Product : Entity
             .IsNotNull(Category, "Category", "Category not found")
             .IsNotNullOrEmpty(Description, "Description")
             .IsGreaterOrEqualsThan(Description, 3, "Description")
+            .IsGreaterOrEqualsThan(Price, 1, "Price")
             .IsNotNullOrEmpty(CreatedBy, "CreatedBy")
             .IsNotNullOrEmpty(EditedBy, "EditedBy");
         AddNotifications(contract);
