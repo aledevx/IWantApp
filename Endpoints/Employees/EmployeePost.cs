@@ -7,7 +7,8 @@ public class EmployeePost
     public static string Template => "/employees";
     public static string[] Methods => new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
-    [AllowAnonymous]
+
+    [Authorize(Policy = "EmployeePolicy")]
     public static async Task<IResult> Action(EmployeeRequest employeeRequest, HttpContext http, UserManager<IdentityUser> userManager)
     {
         var newUser = new IdentityUser
