@@ -14,7 +14,7 @@ public class ProductGetAll
     public static IResult Action(ApplicationDbContext context)
     {
         var products = context.Products.Include(p => p.Category).OrderBy(p => p.Name).ToList();
-        var result = products.Select(p => new ProductResponse(p.Name, p.Category.Name, p.Description, p.HasStock, p.Active));
+        var result = products.Select(p => new ProductResponse(p.Name, p.Category.Name, p.Description, p.HasStock, p.Price, p.Active));
         return Results.Ok(result);
     }
 }
