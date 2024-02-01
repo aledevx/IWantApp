@@ -2,6 +2,7 @@ using IWantApp.Domain.Users;
 using IWantApp.Endpoints.Categories;
 using IWantApp.Endpoints.Clients;
 using IWantApp.Endpoints.Employees;
+using IWantApp.Endpoints.Orders;
 using IWantApp.Endpoints.Secutiry;
 using IWantApp.Infra.Data;
 using Microsoft.AspNetCore.Diagnostics;
@@ -34,11 +35,10 @@ builder.Services.AddAuthorization(
         p.RequireAuthenticatedUser()
             .RequireClaim("EmployeeCode")
         );
-
-    options.AddPolicy("Employee015Policy", p =>
-    p.RequireAuthenticatedUser()
-        .RequireClaim("EmployeeCode", "015")
-    );
+    options.AddPolicy("CpfPolicy", p =>
+        p.RequireAuthenticatedUser()
+            .RequireClaim("Cpf")
+        );
 
 }
 );
@@ -93,6 +93,7 @@ app.MapMethods(ProductGetById.Template, ProductGetById.Methods, ProductGetById.H
 app.MapMethods(ProductGetShowcase.Template, ProductGetShowcase.Methods, ProductGetShowcase.Handle);
 app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
 app.MapMethods(ClientGet.Template, ClientGet.Methods, ClientGet.Handle);
+app.MapMethods(OrderPost.Template, OrderPost.Methods, OrderPost.Handle);
 
 app.UseExceptionHandler("/error");
 app.Map("/error", (HttpContext http) =>
