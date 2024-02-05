@@ -1,0 +1,7 @@
+
+----DESAFIO 01----
+
+TODO Criar endpoint para consultar pedido
+
+Regras:
+    - Apenas quem criou o pedido ou funcionários podem consultar o pedido
