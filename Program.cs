@@ -3,6 +3,7 @@ using IWantApp.Endpoints.Categories;
 using IWantApp.Endpoints.Clients;
 using IWantApp.Endpoints.Employees;
 using IWantApp.Endpoints.Orders;
+using IWantApp.Endpoints.Products;
 using IWantApp.Endpoints.Secutiry;
 using IWantApp.Infra.Data;
 using Microsoft.AspNetCore.Diagnostics;
@@ -63,6 +64,7 @@ builder.Services.AddAuthentication(x =>
 });
 
 builder.Services.AddScoped<QueryAllUsersWithClaimName>();
+builder.Services.AddScoped<QuerySelectBestSellersProducts>();
 builder.Services.AddScoped<UserCreator>();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -94,6 +96,7 @@ app.MapMethods(ProductGetShowcase.Template, ProductGetShowcase.Methods, ProductG
 app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
 app.MapMethods(ClientGet.Template, ClientGet.Methods, ClientGet.Handle);
 app.MapMethods(OrderPost.Template, OrderPost.Methods, OrderPost.Handle);
+app.MapMethods(ProductSoldGet.Template, ProductSoldGet.Methods, ProductSoldGet.Handle);
 
 app.UseExceptionHandler("/error");
 app.Map("/error", (HttpContext http) =>

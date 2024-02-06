@@ -1,0 +1,10 @@
+
+----DESAFIO 02----
+
+TODO Fazer um relatório para trazer os produtos mais vendidos
+
+Regras:
+    - Trazer Id, Nome e quantidade de vendas de cada produtos
+    - Ordenar pelos mais vendidos
+    - Apenas um funcionário da empresa pode visualizar
+    - Utilizar o Dapper
