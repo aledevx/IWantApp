@@ -63,6 +63,7 @@ builder.Services.AddAuthentication(x =>
 });
 
 builder.Services.AddScoped<QueryAllUsersWithClaimName>();
+builder.Services.AddScoped<QueryAllProductsSold>();
 builder.Services.AddScoped<UserCreator>();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -95,6 +96,7 @@ app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
 app.MapMethods(ClientGet.Template, ClientGet.Methods, ClientGet.Handle);
 app.MapMethods(OrderPost.Template, OrderPost.Methods, OrderPost.Handle);
 app.MapMethods(OrderGet.Template, OrderGet.Methods, OrderGet.Handle);
+app.MapMethods(ProductSoldGet.Template, ProductSoldGet.Methods, ProductSoldGet.Handle);
 
 app.UseExceptionHandler("/error");
 app.Map("/error", (HttpContext http) =>
